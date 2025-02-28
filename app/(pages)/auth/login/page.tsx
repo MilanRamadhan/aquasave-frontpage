@@ -16,6 +16,7 @@ import Aos from "aos";
 import { IsDesktop } from "@/app/hooks";
 import API from "@/app/utils/API";
 import { toast, Bounce, ToastContainer } from "react-toastify";
+import Button from "@mui/material/Button"; // Memperbaiki import Button
 
 const Login: React.FC = () => {
   const navigation = useRouter();
@@ -26,200 +27,147 @@ const Login: React.FC = () => {
   const Auth = useAuth();
   const isDesktop = IsDesktop();
 
-  const onLogin = () => {
+  const onLogin = async () => {
     setIsLoading(true);
-    API.post("/admin/auth/login", {
-      email: email,
-      password: password,
-    })
-      .then((res) => {
-        setIsLoading(false);
-        const data: any = {
-          user: {
-            id: res.data.data._id,
-            fullName: res.data.data.fullName,
-            phone: res.data.data.phone,
-            email: res.data.data.email,
-          },
-          token: `Bearer ${res.data.data.token}`,
-        };
-        // console.log(data);
-        Auth.login(data);
-        toast.success(`${res.data.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        toast.error(`${err.response.data.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
-        console.log("error", err);
+    try {
+      const { data } = await API.post("/auth/login", { email, password });
+      const userData = {
+        user: {
+          id: data.data._id,
+          fullName: data.data.fullName,
+          phone: data.data.phone,
+          email: data.data.email,
+        },
+        token: `Bearer ${data.data.token}`,
+      };
+      Auth.login(userData);
+      toast.success(data.message, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "light",
+        transition: Bounce,
       });
+      
+    } catch (error) {
+      const errorMessage = (error as any).response?.data?.message || "Terjadi kesalahan";
+      toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "light",
+        transition: Bounce,
+      });
+      console.error("error", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    // Aos.init();
-    // Aos.refresh();
     if (Auth.auth.isAuthenticated) {
       navigation.replace("/");
     }
   }, [Auth.auth.isAuthenticated, navigation]);
 
   if (Auth.auth.isAuthenticated) {
-    navigation.replace("/");
     return null;
   }
 
-  return isDesktop ? (
-    <div className="w-screen h-screen flex items-center justify-between overflow-hidden">
-      <div className="h-full w-[50%] flex flex-col justify-center items-center gap-5 border-r-[1px] border-gray-400 shadow-[3px_0px_15px_gray]">
-        <Logo size={250} />
-        <div className=" flex flex-col items-center gap-3">
-          <h1 className=" text-[#202226] font-semibold text-5xl">
-            Selamat Datang
-          </h1>
-          <h6 className=" text-center text-[#838383] text-xl">
-            Selamat datang pemilik kredit air. Silahkan masukkan detail Anda
-            untuk melanjutkan.
-          </h6>
-        </div>
+  useEffect(() => {
+    console.log("showPassword berubah:", showPassword);
+  }, [showPassword]);
+
+  return !isDesktop ? (
+    <div className="w-screen h-screen flex flex-col items-center justify-center bg-[#E6F0F8] px-6">
+      <h1 className="text-3xl font-bold text-[#174D70] mb-6">Selamat Datang</h1>
+      <div className="bg-white shadow-md rounded-2xl p-8 w-full max-w-sm">
+        <TextField
+          fullWidth
+          label="Email"
+          variant="outlined"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="mb-4"
+          InputLabelProps={{ shrink: true }} // Memastikan label naik saat input diisi
+          sx={{
+            width: "100%",
+            "& .MuiOutlinedInput-root": {
+              color: "black", // Warna teks input
+              "& fieldset": {
+                borderColor: "#EDEDED", // Warna outline default
+              },
+              "&:hover fieldset": {
+                borderColor: "#EDEDED", // Warna outline saat hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#EDEDED", // Warna outline saat fokus
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "black", // Warna label default
+              "&.Mui-focused": {
+                color: "black", // Warna label saat fokus
+              },
+            },
+          }}
+        />
+        <TextField
+          fullWidth
+          label="Kata Sandi"
+          type={showPassword ? "text" : "password"}
+          variant="outlined"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="mb-2"
+          InputLabelProps={{ shrink: true }} // Memastikan label naik saat input diisi
+          sx={{
+            width: "100%",
+            "& .MuiOutlinedInput-root": {
+              color: "black", // Warna teks input
+              "& fieldset": {
+                borderColor: "#EDEDED", // Warna outline default
+              },
+              "&:hover fieldset": {
+                borderColor: "#EDEDED", // Warna outline saat hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#EDEDED", // Warna outline saat fokus
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "black", // Warna label default
+              "&.Mui-focused": {
+                color: "black", // Warna label saat fokus
+              },
+            },
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => {
+                    console.log("Sebelum:", showPassword); // Lihat nilai sebelum diubah
+                    setShowPassword((prev) => !prev);
+                    console.log("Sesudah:", showPassword); // Lihat nilai sesudah diubah
+                  }}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <LoadingButton fullWidth loading={isLoading} variant="contained" sx={{ bgcolor: "#174D70", mt: 2, mb: 1 }} onClick={() => onLogin()}>
+          Masuk
+        </LoadingButton>
+
+        <p className="text-center text-sm text-gray-500 mt-4">
+          Belum punya akun?{" "}
+          <span className="text-[#174D70] cursor-pointer">
+            <Link href={"/auth/register"}>Daftar</Link>
+          </span>
+        </p>
       </div>
-      <div className="h-full w-[50%] flex flex-col justify-center items-center px-56">
-        <div className=" w-full flex flex-col gap-8 items-center">
-          <div className="flex flex-col gap-2 items-center">
-            <h1
-              data-aos={"fade-up"}
-              data-aos-duration={"1000"}
-              className=" text-[#202226] font-semibold text-2xl"
-            >
-              Silahkan masukkan detail Anda
-            </h1>
-            <h6 className=" text-center text-[#838383] text-sm">
-              Silahkan masukkan detail Anda untuk melanjutkan.
-            </h6>
-          </div>
-          <div className=" w-full flex flex-col gap-5 items-center">
-            <TextField
-              id="email"
-              label="Email"
-              variant="outlined"
-              value={email}
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-              sx={{
-                width: "100%",
-                "& .MuiOutlinedInput-root": {
-                  color: "black", // Warna teks input
-                  "& fieldset": {
-                    borderColor: "#EDEDED", // Warna outline default
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#EDEDED", // Warna outline saat hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#EDEDED", // Warna outline saat fokus
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: "black", // Warna label default
-                  "&.Mui-focused": {
-                    color: "black", // Warna label saat fokus
-                  },
-                },
-              }}
-            />
-            <TextField
-              id="password"
-              label="Password"
-              type={showPassword ? "text" : "password"} // Toggle tipe input
-              variant="outlined"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              sx={{
-                width: "100%",
-                "& .MuiOutlinedInput-root": {
-                  color: "black", // Warna teks input
-                  "& fieldset": {
-                    borderColor: "#EDEDED", // Warna outline default
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#EDEDED", // Warna outline saat hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#EDEDED", // Warna outline saat fokus
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: "black", // Warna label default
-                  "&.Mui-focused": {
-                    color: "black", // Warna label saat fokus
-                  },
-                },
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                      style={{ color: "gray" }}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            {/* <button
-          onClick={() => onLogin()}
-          className="w-full bg-[#039FE1] text-center text-white font-semibold text-base rounded-xl py-3"
-        >
-          Sign in
-        </button> */}
-            <LoadingButton
-              loading={isLoading}
-              variant="outlined"
-              onClick={() => onLogin()}
-              sx={{
-                backgroundColor: "#039FE1",
-                width: "100%",
-                height: "48px",
-                color: "#ffffff",
-                borderColor: "#039FE1",
-                "&:hover": {
-                  backgroundColor: "#039FE1", // Warna saat hover
-                  borderColor: "#039FE1",
-                },
-                "& .MuiLoadingButton-loadingIndicator": {
-                  color: "#ffffff", // Warna indikator loading
-                },
-              }}
-            >
-              {!isLoading ? (
-                <h1 className="text-white font-semibold text-base">Sign in</h1>
-              ) : null}
-            </LoadingButton>
-          </div>
-        </div>
-      </div>
-      <ToastContainer />
     </div>
   ) : null;
 };

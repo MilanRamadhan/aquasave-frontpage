@@ -24,7 +24,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
   return auth.isAuthenticated ? (
     <>
       <CssBaseline />
-      {!isDesktop ? (
+      {isDesktop ? (
         <div className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-[#8A2BE2] to-[#4B0082]">
           <svg
             className="animate-bounce w-28 h-28 mb-6 text-[#FFD700]"
@@ -45,13 +45,13 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
             component="h1"
             className="text-white text-center font-bold text-2xl"
           >
-            Halaman admin hanya tersedia versi desktop
+            Saat ini hanya tersedia versi mobile
           </Typography>
           <Typography
             variant="body1"
             className="text-white text-center mt-2 text-lg"
           >
-            Silakan gunakan perangkat desktop untuk pengalaman terbaik.
+            Silakan gunakan perangkat mobile untuk pengalaman terbaik.
           </Typography>
         </div>
       ) : (
