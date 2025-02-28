@@ -19,7 +19,7 @@ import { toast, Bounce } from "react-toastify";
 
 const Register: React.FC = () => {
   const navigation = useRouter();
-  const [fullName, setFullName] = useState<string>("")
+  const [fullName, setFullName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -66,7 +66,7 @@ const Register: React.FC = () => {
   return !isDesktop ? (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[#E6F0F8] px-6">
       <h1 className="text-3xl font-bold text-[#174D70] mb-6">Register</h1>
-      <div className="bg-white shadow-md rounded-2xl p-8 w-full max-w-sm">
+      <div className="bg-white shadow-md rounded-2xl p-8 w-full max-w-sm flex flex-col gap-4">
         <TextField
           fullWidth
           label="Nama Lengkap"
@@ -74,7 +74,6 @@ const Register: React.FC = () => {
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           className="mb-4"
-          InputLabelProps={{ shrink: true }}
           sx={{
             width: "100%",
             "& .MuiOutlinedInput-root": {
@@ -104,7 +103,6 @@ const Register: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="mb-4"
-          InputLabelProps={{ shrink: true }}
           sx={{
             width: "100%",
             "& .MuiOutlinedInput-root": {
@@ -135,7 +133,6 @@ const Register: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="mb-2"
-          InputLabelProps={{ shrink: true }}
           sx={{
             width: "100%",
             "& .MuiOutlinedInput-root": {
@@ -160,10 +157,7 @@ const Register: React.FC = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  edge="end"
-                >
+                <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
@@ -178,7 +172,6 @@ const Register: React.FC = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           className="mb-2"
-          InputLabelProps={{ shrink: true }}
           sx={{
             width: "100%",
             "& .MuiOutlinedInput-root": {
@@ -203,10 +196,7 @@ const Register: React.FC = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  edge="end"
-                >
+                <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>

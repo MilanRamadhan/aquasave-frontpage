@@ -17,6 +17,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AquaSave",
   description: "Aplikasi Monitoring Penggunaan Air",
+  icons: {
+    icon: "/assets/logo/aquasave.png",
+    shortcut: "/assets/logo/aquasave.png",
+    apple: "/assets/logo/aquasave.png",
+    other: {
+      rel: "apple-touch-icon-precomposed",
+      url: "/assets/logo/aquasave.png",
+    },
+  },
 };
 
 export default function RootLayout({

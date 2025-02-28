@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
 
   return isDesktop ? null : (
     <Box sx={{ width: "100%", height: "100vh", bgcolor: "#F8F9FA" }}>
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 2 }}>
         <Typography variant="h5" sx={{ fontWeight: "bold" }}>
           Halo
         </Typography>
@@ -73,44 +73,34 @@ const HomePage: React.FC = () => {
             <CircularProgress />
           </Box>
         ) : (
-          <Paper
-            sx={{
-              p: 2,
-              mt: 2,
-              bgcolor: "#E3F2FD",
-              borderRadius: 3,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              boxShadow: 2,
-            }}
-          >
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                16 Jam
-              </Typography>
-              <Typography variant="body2">Penggunaan Hari Ini</Typography>
-              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                {totalUsedWater ?? 0} L / 1000L
-              </Typography>
-            </Box>
-            <Link href={"/grafik"}>
-              <Box
-                sx={{
-                  width: 50,
-                  height: 50,
-                  bgcolor: "white",
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: 1,
-                }}
-              >
-                →
+          <Link href={"/grafik"}>
+            <Paper
+              sx={{
+                p: 2,
+                mt: 10,
+                bgcolor: "#E3F2FD",
+                borderRadius: 3,
+                display: "flex",
+                alignItems: "center",
+                boxShadow: 2,
+              }}
+            >
+              <Box sx={{ mr: 2 }}>
+                <img src="/assets/logo/aquasave.png" alt="aquasave.png" width="50" height="50" />
               </Box>
-            </Link>
-          </Paper>
+              <Box>
+                <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "left" }}>
+                  16 Jam
+                </Typography>
+                <Typography variant="body2" sx={{ textAlign: "left" }}>
+                  Penggunaan Hari Ini
+                </Typography>
+                <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "left" }}>
+                  {totalUsedWater ?? 0} L / 1000L
+                </Typography>
+              </Box>
+            </Paper>
+          </Link>
         )}
 
         <Box
@@ -129,12 +119,12 @@ const HomePage: React.FC = () => {
             <Link key={index} href={item.link ?? "#"} style={{ width: "100%" }}>
               <Paper
                 sx={{
-                  py: 3,
+                  p: 2,
                   width: "100%",
-                  textAlign: "center",
+                  textAlign: "left",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  justifyContent: "left",
                   gap: 2,
                   bgcolor: "#E3F2FD",
                   borderRadius: 3,

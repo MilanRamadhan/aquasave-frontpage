@@ -30,7 +30,7 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import NotificationOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -57,7 +57,7 @@ const Navbar = () => {
   useEffect(() => {
     const pathMap: { [key: string]: string } = {
       "/": "home",
-      "/marketplace": "marketplace",
+      "/notifikasi": "notifikasi",
       "/lapor-kebocoran": "lapor-kebocoran",
       "/profile": "profile",
     };
@@ -86,7 +86,7 @@ const Navbar = () => {
     alignItems: "center",
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
   }));
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -115,14 +115,7 @@ const Navbar = () => {
               <h1 className="text-lg">{Auth.auth.user?.fullName}</h1>
             </div>
           </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            sx={{ position: "fixed", left: "92%", top: "5%" }}
-          >
+          <Menu id="menu-appbar" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} sx={{ position: "fixed", left: "92%", top: "5%" }}>
             <MenuItem sx={{ px: 3 }} onClick={() => Auth.logout()}>
               Keluar
             </MenuItem>
@@ -142,14 +135,18 @@ const Navbar = () => {
           },
         }}
       >
-        <DrawerHeader sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", pl: 3 }}>
-          <Typography variant="body1" fontWeight={600}>Menu</Typography>
+        <DrawerHeader>
+          <Typography variant="body1" fontWeight={600}>
+            Menu
+          </Typography>
           <IconButton onClick={() => setOpen(false)}>{theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
         </DrawerHeader>
         <Divider />
         <List>
           <ListItem>
-            <Typography variant="body1" fontWeight={600}>{Auth.auth.user?.fullName}</Typography>
+            <Typography variant="body1" fontWeight={600}>
+              {Auth.auth.user?.fullName}
+            </Typography>
           </ListItem>
           <ListItem>
             <Typography variant="body2">ID : {Auth.auth.user?.id}</Typography>
@@ -172,7 +169,9 @@ const Navbar = () => {
         <List>
           <ListItem disablePadding>
             <ListItemButton onClick={() => Auth.logout()}>
-              <ListItemIcon><InboxIcon /></ListItemIcon>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
               <ListItemText primary="Keluar" />
             </ListItemButton>
           </ListItem>
@@ -182,32 +181,46 @@ const Navbar = () => {
   ) : (
     <Box sx={{ pb: 7 }} ref={useRef<HTMLDivElement>(null)}>
       <CssBaseline />
-      <Paper sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 100 }} elevation={3}>
-        <BottomNavigation sx={{ bgcolor: "white", display: 'flex', justifyContent: 'space-around' }}>
-          <Link href="/" passHref>
-            <BottomNavigationAction
-              onClick={() => setNavActivePosition("home")}
-              label="Home"
-              icon={<HomeOutlinedIcon />}
-              sx={{ color: navActivePosition === "home" ? "white" : "#202226", bgcolor: navActivePosition === "home" ? "#202226" : "white", minWidth: '80px' }}
-            />
-          </Link>
-          <Link href="/profile" passHref>
-            <BottomNavigationAction
-              onClick={() => setNavActivePosition("profile")}
-              label="Profile"
-              icon={<PersonOutlineOutlinedIcon />}
-              sx={{ color: navActivePosition === "profile" ? "white" : "#202226", bgcolor: navActivePosition === "profile" ? "#202226" : "white", minWidth: '80px' }}
-            />
-          </Link>
-          <Link href="/setting" passHref>
-            <BottomNavigationAction
-              onClick={() => setNavActivePosition("settings")}
-              label="Settings"
-              icon={<SettingsOutlinedIcon />}
-              sx={{ color: navActivePosition === "settings" ? "white" : "#202226", bgcolor: navActivePosition === "settings" ? "#202226" : "white", minWidth: '80px' }}
-            />
-          </Link>
+      <Paper
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          borderRadius: "16px 16px 0 0",
+          boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
+          overflow: "hidden",
+        }}
+        elevation={3}
+      >
+        <BottomNavigation
+          sx={{
+            bgcolor: "#ffffff",
+            display: "flex",
+            justifyContent: "space-evenly",
+            padding: "10px 5",
+          }}
+        >
+          {["/", "/profile", "/notifikasi"].map((path, index) => (
+            <Link key={index} href={path} passHref>
+              <BottomNavigationAction
+                onClick={() => setNavActivePosition(path === "/" ? "home" : path.slice(1))}
+                label={path === "/" ? "Home" : path.slice(1).charAt(0).toUpperCase() + path.slice(2)}
+                icon={path === "/" ? <HomeOutlinedIcon /> : path === "/profile" ? <PersonOutlineOutlinedIcon /> : <NotificationOutlinedIcon />}
+                sx={{
+                  color: navActivePosition === (path === "/" ? "home" : path.slice(1)) ? "#ffffff" : "#202226",
+                  bgcolor: navActivePosition === (path === "/" ? "home" : path.slice(1)) ? "#202226" : "white",
+                  minWidth: "80px",
+                  borderRadius: "12px",
+                  transition: "all 0.3s ease-in-out",
+                  "&:hover": {
+                    bgcolor: "#e0e0e0",
+                  },
+                }}
+              />
+            </Link>
+          ))}
         </BottomNavigation>
       </Paper>
     </Box>

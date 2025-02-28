@@ -1,4 +1,8 @@
 {
+  "/(pages)/grafik/page": "app/(pages)/grafik/page.js",
+  "/page": "app/page.js",
+  "/(pages)/notifikasi/page": "app/(pages)/notifikasi/page.js",
+  "/(pages)/sensor/page": "app/(pages)/sensor/page.js",
   "/(pages)/auth/login/page": "app/(pages)/auth/login/page.js",
-  "/page": "app/page.js"
+  "/(pages)/profile/page": "app/(pages)/profile/page.js"
 }

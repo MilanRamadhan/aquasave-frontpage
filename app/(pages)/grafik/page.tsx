@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/app/hooks/UseAuth";
 import { useRouter } from "next/navigation";
 import API from "@/app/utils/API";
-import { Box, Typography, Paper, CircularProgress, FormControl, Select, MenuItem } from "@mui/material";
+import { Box, Typography, Paper, CircularProgress, FormControl, Select, MenuItem, AppBar, Toolbar, IconButton } from "@mui/material";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -49,7 +49,7 @@ const GrafikPage: React.FC = () => {
 
     setLoading(true);
     getTools().finally(() => setLoading(false));
-  }, [auth.auth.isAuthenticated, navigation]);
+  }, [auth.auth.isAuthenticated, navigation, periode]);
 
   if (!auth.auth.isAuthenticated) {
     return null;
@@ -58,24 +58,30 @@ const GrafikPage: React.FC = () => {
   return (
     <Box sx={{ width: "100%", height: "100vh", bgcolor: "#F8F9FA" }}>
       {/* Header */}
-      <Box sx={{ bgcolor: "#3B6994", color: "white", p: 2, display: "flex", alignItems: "center" }}>
-        <Link href={"/"} style={{ textDecoration: "none", color: "inherit" }}>
-          <ArrowBackIcon sx={{ cursor: "pointer", mr: 2 }} />
-        </Link>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Penggunaan Air
-        </Typography>
-      </Box>
+      <AppBar
+        position="fixed"
+        sx={{
+          background: "linear-gradient(45deg, #1E3A8A 30%, #3B82F6 90%)",
+          color: "white",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          alignContent: "center",
+        }}
+      >
+        <Toolbar sx={{ display: "flex", justifyContent: "start", alignItems: "center", gap: 2 }}>
+          <IconButton onClick={navigation.back} sx={{ color: "white" }}>
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: "bold", fontSize: "1.2rem", letterSpacing: "0.5px" }}>
+            Grafik
+          </Typography>
+        </Toolbar>
+      </AppBar>
 
       {/* Dropdown Pilih Periode */}
-      <Box sx={{ px: 2, mt: 2 }}>
+      <Box sx={{ mt: 10 }}>
         <FormControl fullWidth>
-          <Select
-            value={periode}
-            onChange={(e) => setPeriode(e.target.value)}
-            displayEmpty
-            sx={{ bgcolor: "white", borderRadius: 2 }}
-          >
+          <Select value={periode} onChange={(e) => setPeriode(e.target.value)} displayEmpty sx={{ bgcolor: "white", borderRadius: 2 }}>
             <MenuItem value="hari">Hari</MenuItem> {/* Mengubah dari "harian" ke "hari" */}
             <MenuItem value="minggu">Minggu</MenuItem>
             <MenuItem value="bulan">Bulan</MenuItem> {/* Mengubah dari "bulanan" ke "bulan" */}
@@ -92,7 +98,7 @@ const GrafikPage: React.FC = () => {
       ) : (
         <>
           {/* Grafik */}
-          <Box sx={{ flex: 1, p: 2 }}>
+          <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Typography variant="h6" align="center" sx={{ fontWeight: "bold", color: "#3B6994" }}>
               Penggunaan Air {periode.charAt(0).toUpperCase() + periode.slice(1)}
             </Typography>
@@ -118,7 +124,7 @@ const GrafikPage: React.FC = () => {
               borderRadius: 3,
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: "space-evenly",
               boxShadow: 2,
             }}
           >
@@ -128,10 +134,12 @@ const GrafikPage: React.FC = () => {
               </Typography>
               <Typography variant="body2">Penggunaan Total</Typography>
             </Box>
-            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-              {data.length > 0 ? Math.max(...data.map((d) => d.totalUsedWater)) : 0} L
-            </Typography>
-            <Typography variant="body2">Tertinggi</Typography>
+            <Box>
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                {data.length > 0 ? Math.max(...data.map((d) => d.totalUsedWater)) : 0} L
+              </Typography>
+              <Typography variant="body2">Tertinggi</Typography>
+            </Box>
           </Paper>
         </>
       )}

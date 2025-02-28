@@ -47,7 +47,6 @@ const Login: React.FC = () => {
         theme: "light",
         transition: Bounce,
       });
-      
     } catch (error) {
       const errorMessage = (error as any).response?.data?.message || "Terjadi kesalahan";
       toast.error(errorMessage, {
@@ -87,7 +86,6 @@ const Login: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="mb-4"
-          InputLabelProps={{ shrink: true }} // Memastikan label naik saat input diisi
           sx={{
             width: "100%",
             "& .MuiOutlinedInput-root": {
@@ -118,8 +116,8 @@ const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="mb-2"
-          InputLabelProps={{ shrink: true }} // Memastikan label naik saat input diisi
           sx={{
+            mt: 3,
             width: "100%",
             "& .MuiOutlinedInput-root": {
               color: "black", // Warna teks input
