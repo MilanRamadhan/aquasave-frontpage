@@ -460,9 +460,6 @@ video {
     max-width: 1536px;
   }
 }
-.static{
-  position: static;
-}
 .fixed{
   position: fixed;
 }
@@ -611,9 +608,6 @@ video {
 .h-screen{
   height: 100vh;
 }
-.h-\[150px\]{
-  height: 150px;
-}
 .w-16{
   width: 4rem;
 }
@@ -659,14 +653,8 @@ video {
 .w-screen{
   width: 100vw;
 }
-.w-\[95\%\]{
-  width: 95%;
-}
 .max-w-sm{
   max-width: 24rem;
-}
-.shrink{
-  flex-shrink: 1;
 }
 .rotate-\[135deg\]{
   --tw-rotate: 135deg;
