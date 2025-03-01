@@ -76,7 +76,6 @@ const ReportPage: React.FC = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-
       {/* Dropdown Pilih Periode */}
       <Box sx={{ mt: 10 }}>
         <FormControl fullWidth>
@@ -88,7 +87,6 @@ const ReportPage: React.FC = () => {
           </Select>
         </FormControl>
       </Box>
-
       <Paper elevation={3} sx={{ m: 2, borderRadius: 3, overflow: "hidden" }}>
         <Typography variant="h6" sx={{ p: 2, bgcolor: "#D1E9FF", textAlign: "center", fontWeight: "bold" }}>
           Data
@@ -120,6 +118,7 @@ const ReportPage: React.FC = () => {
           </TableContainer>
         )}
       </Paper>
+      <Box sx={{ pb: 10 }} /> {/* Menambahkan gap di bawah table */}
     </Box>
   );
 };

@@ -1,7 +1,8 @@
 {
-  "/(pages)/grafik/page": "app/(pages)/grafik/page.js",
-  "/(pages)/auth/login/page": "app/(pages)/auth/login/page.js",
   "/(pages)/laporan/page": "app/(pages)/laporan/page.js",
+  "/(pages)/panduan/page": "app/(pages)/panduan/page.js",
+  "/(pages)/sensor/page": "app/(pages)/sensor/page.js",
   "/page": "app/page.js",
-  "/(pages)/panduan/page": "app/(pages)/panduan/page.js"
+  "/(pages)/profile/page": "app/(pages)/profile/page.js",
+  "/(pages)/notifikasi/page": "app/(pages)/notifikasi/page.js"
 }

@@ -77,7 +77,7 @@ const PanduanPage: React.FC = () => {
       </AppBar>
 
       {/* Konten */}
-      <Box sx={{ p: 2, mt: 10 }}>
+      <Box sx={{ p: 2, mt: 5, pb: 7 }}>
         {tips.map((tip, index) => (
           <Paper key={index} sx={{ p: 2, mb: 2, borderRadius: 3, boxShadow: 2 }}>
             <Typography variant="h6" sx={{ fontWeight: "bold", color: "#3B6994" }}>
